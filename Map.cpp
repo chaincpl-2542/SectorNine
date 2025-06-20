@@ -11,8 +11,6 @@ namespace CPL
 
 	void Map::Draw() 
 	{
-		std::cout << "DrawMap" << std::endl;
-
 		for (int y = 0; y < height; y++) 
 		{
 			for (int x = 0; x < width; x++) 
@@ -33,6 +31,7 @@ namespace CPL
 				else
 					std::cout << tiles[y][x];
 			}
+
 			std::cout << std::endl;
 		}
 	}
@@ -43,6 +42,9 @@ namespace CPL
 		int y = entity.getY();
 		char symbol = entity.getSymbol();
 		tiles[y][x] = symbol;
+
+		if(symbol == '@')
+			std::cout << "Player: (" << x << ", " << y << ")\n";
 	}
 
 	void Map::ClearEntities()

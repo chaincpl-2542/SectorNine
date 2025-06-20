@@ -21,15 +21,28 @@ namespace CPL
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
 		map->Draw();
-	}
+	}	
 
 	char GameEngine::handleInput()
 	{
-		std::cout << "w  = up, s = down, a = left, d = right" << std::endl;
-		std::cout << "x = exit" << std::endl;
+		const int F1 = 59; // F1 key
 
-		char input = _getch();
-		return input;
+		std::cout << "Press F1 to see how to play." << std::endl;
+
+		int input = _getch();
+
+		if (input == 0 || input == 224)
+		{
+			int key = _getch();
+			if (key == F1)
+			{
+				ShowHowToPlay();
+				return ' ';
+			}
+			return ' ';
+		}
+
+		return static_cast<char>(input);
 	}
 
 	void GameEngine::update(char input)
@@ -49,16 +62,13 @@ namespace CPL
 			case '3': moveDownRight(y, x); break;
 			case '5': wait(y, x); break;
 			default:break;
+           
 		}
 	}
 
 	void GameEngine::render()
 	{
-#ifdef _WIN32
-		system("cls");
-#else
-		system("clear");
-#endif
+		ClearConsole();
 
 		std::cout << "Render" << std::endl;
 		map->ClearEntities();
@@ -72,7 +82,6 @@ namespace CPL
 			std::cout << static_cast<char>(enemies[i]->getSymbol());
 		}
 	}
-
 
 	void GameEngine::release()
 	{
@@ -135,5 +144,36 @@ namespace CPL
 		player->setPosition(x, y);
 	}
 
+	void GameEngine::ShowHowToPlay()
+	{
+		ClearConsole();
+		std::cout << "How to play:" << std::endl;
+		std::cout << "Use the numpad keys to move your character around the map." << std::endl;
+		std::cout << "Avoid enemies and try to reach the goal!" << std::endl;
+		std::cout << "\n" << std::endl;
+		std::cout << "======================= Control =======================" << std::endl;
+		std::cout << "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv" << std::endl;
+		std::cout << "7 = up-left, 8 = up, 9 = up-right" << std::endl;
+		std::cout << "4 = left,    5 = wait, 6 = right" << std::endl;
+		std::cout << "1 = down-left, 2 = down, 3 = down-right" << std::endl;
+		std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
+		std::cout << "=======================================================" <<std::endl;
+		std::cout << "\n" << std::endl;
+		std::cout << "Press 'x' to exit the game." << std::endl;
+		std::cout << "\n" << std::endl;
+		std::cout << "Press any key to continue..." << std::endl;
+
+		_getch();
+	}
+
 #pragma endregion
+
+	void GameEngine::ClearConsole()
+	{
+#ifdef _WIN32
+		system("cls");
+#else
+		system("clear");
+#endif
+	}
 }

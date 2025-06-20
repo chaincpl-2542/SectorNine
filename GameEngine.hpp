@@ -27,6 +27,12 @@ namespace CPL
 		void moveDownRight(int y, int x);
 		void wait(int y, int x);
 
+		//How to play
+		void ShowHowToPlay();
+
+		//Clear console
+		void ClearConsole();
+
 	private:
 		std::unique_ptr<Map> map;
 		std::unique_ptr<Player> player;
