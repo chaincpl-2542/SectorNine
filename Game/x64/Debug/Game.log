@@ -1,9 +1,0 @@
-﻿  Enemy.cpp
-  Entity.cpp
-  GameEngine.cpp
-  Map.cpp
-D:\CPL\GameEngine\Game\Map.cpp(14,21): warning C4018: '<': signed/unsigned mismatch
-D:\CPL\GameEngine\Game\Map.cpp(16,22): warning C4018: '<': signed/unsigned mismatch
-  Player.cpp
-  Generating Code...
-D:\CPL\GameEngine\Game\GameEngine.cpp(56,1): error C4700: uninitialized local variable 'i' used

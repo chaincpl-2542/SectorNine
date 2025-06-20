@@ -21,4 +21,10 @@ namespace CPL
 	{
 		return symbol;
 	}
+
+	void Entity::setPosition(int x, int y)
+	{
+		posX = x;
+		posY = y;
+	}
 }

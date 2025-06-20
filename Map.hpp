@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Entity.hpp"
 
 namespace CPL
 {
@@ -7,11 +8,14 @@ namespace CPL
 	{
 	public:
 		Map();
-		void draw();
+		void Draw();
+
+		void DrawEntities(const Entity& entity);
+		void ClearEntities();
 
 	private:
-		const unsigned int width = 20;
-		const unsigned int height = 20;
+		const unsigned int width = 80;
+		const unsigned int height = 25;
 		 std::vector<std::vector<char>>tiles;
 	};
 }

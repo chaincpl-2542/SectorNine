@@ -11,8 +11,8 @@ namespace CPL
 	public:
 		GameEngine();
 		void init();
-		int handleInput();
-		void update();
+		char handleInput();
+		void update(char input);
 		void render();
 		void release();
 

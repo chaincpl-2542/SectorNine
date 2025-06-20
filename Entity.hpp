@@ -14,6 +14,8 @@ namespace CPL
 		int getX() const;
 		int getY() const;
 		int getSymbol() const;
+
+		void setPosition(int x, int y);
 	};
 }
 

@@ -1,4 +1,5 @@
 #include "GameEngine.hpp"
+#include "Player.hpp"
 #include <iostream>
 
 namespace CPL 
@@ -13,32 +14,45 @@ namespace CPL
 		std::cout << "Init" << std::endl;
 		map = std::make_unique<Map>();
 		player = std::make_unique<Player>();
+		player->setPosition(2, 2);
 
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
+		map->Draw();
 	}
 
-	int GameEngine::handleInput()
+	char GameEngine::handleInput()
 	{
-		std::cout << "What do you want to do?" << std::endl;
-		std::cout << "w  = up" << std::endl;
-		std::cout << "s = down" << std::endl;
-		std::cout << "a = left" << std::endl;
-		std::cout << "d = right" << std::endl;
+		std::cout << "w  = up, s = down, a = left, d = right" << std::endl;
 		std::cout << "x = exit" << std::endl;
 
 		char input;
 		std::cin >> input;
-		if (input == 'x') 
-			return 0;
-		else
-			return 1;
+
+		return input;
 	}
 
-	void GameEngine::update()
+	void GameEngine::update(char input)
 	{
+		int x = player->getX();
+		int y = player->getY();
 
+		switch (input)
+		{
+		case 'w': y--;
+			break;
+		case 's': y++;
+			break;
+		case 'a': x--;
+			break;
+		case 'd': x++;
+			break;
+		default:
+			break;
+		}
+
+		player->setPosition(x, y);
 	}
 
 	void GameEngine::render()
@@ -50,13 +64,18 @@ namespace CPL
 #endif
 
 		std::cout << "Render" << std::endl;
-		map->draw();
+		map->ClearEntities();
+		map->DrawEntities(*player);
+		map->Draw();
+
 		std::cout << static_cast<char>(player->getSymbol());
 
-		for (int i; i < enemies.size(); i++) {
+		for (int i = 0 ; i < enemies.size(); i++) 
+		{
 			std::cout << static_cast<char>(enemies[i]->getSymbol());
 		}
 	}
+
 
 	void GameEngine::release()
 	{

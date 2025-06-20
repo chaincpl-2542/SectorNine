@@ -12,11 +12,13 @@ int main()
 
 	while (true) 
 	{
-		char choice = gameEngine->handleInput();
-		if (choice == 0)
+		char input = gameEngine->handleInput();
+
+		if (input == 'x')
 			break;
 
-		gameEngine->update();
+		gameEngine->update(input);
+		// Draw map
 		gameEngine->render();
 	}
 
