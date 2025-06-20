@@ -56,4 +56,13 @@ namespace CPL
 			}
 		}
 	}
+
+	bool Map::isWalkable(int x, int y) const
+	{
+		if (y < 0 || y >= height || x < 0 || x >= width)
+			return false;
+
+		char tile = tiles[y][x];
+		return tile != '#';
+	}
 }

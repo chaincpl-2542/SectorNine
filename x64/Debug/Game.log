@@ -4,6 +4,7 @@ D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(16,21): warning C4018: '
 D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(18,22): warning C4018: '<': signed/unsigned mismatch
 D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(50,21): warning C4018: '<': signed/unsigned mismatch
 D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(52,22): warning C4018: '<': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(62,18): warning C4018: '>=': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(62,42): warning C4018: '>=': signed/unsigned mismatch
   Generating Code...
-  main.cpp
   Game.vcxproj -> D:\MU Works\GameEngine\RoguelikeGame\SectorNine\x64\Debug\Game.exe

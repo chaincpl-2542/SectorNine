@@ -1,8 +1,9 @@
 #include "GameEngine.hpp"
 #include "Player.hpp"
 #include <iostream>
+#include <conio.h>
 
-namespace CPL 
+namespace CPL
 {
 	GameEngine::GameEngine()
 	{
@@ -27,9 +28,7 @@ namespace CPL
 		std::cout << "w  = up, s = down, a = left, d = right" << std::endl;
 		std::cout << "x = exit" << std::endl;
 
-		char input;
-		std::cin >> input;
-
+		char input = _getch();
 		return input;
 	}
 
@@ -40,19 +39,17 @@ namespace CPL
 
 		switch (input)
 		{
-		case 'w': y--;
-			break;
-		case 's': y++;
-			break;
-		case 'a': x--;
-			break;
-		case 'd': x++;
-			break;
-		default:
-			break;
+			case '8': moveUp(y, x); break;
+			case '2': moveDown(y, x); break;
+			case '4': moveLeft(y, x); break;
+			case '6': moveRight(y, x); break;
+			case '7': moveUpLeft(y, x); break;
+			case '9': moveUpRight(y, x); break;
+			case '1': moveDownLeft(y, x); break;
+			case '3': moveDownRight(y, x); break;
+			case '5': wait(y, x); break;
+			default:break;
 		}
-
-		player->setPosition(x, y);
 	}
 
 	void GameEngine::render()
@@ -70,7 +67,7 @@ namespace CPL
 
 		std::cout << static_cast<char>(player->getSymbol());
 
-		for (int i = 0 ; i < enemies.size(); i++) 
+		for (int i = 0; i < enemies.size(); i++)
 		{
 			std::cout << static_cast<char>(enemies[i]->getSymbol());
 		}
@@ -82,4 +79,61 @@ namespace CPL
 		std::cout << "Release" << std::endl;
 
 	}
+
+#pragma region PlayerMovement
+
+	void GameEngine::moveUp(int y, int x)
+	{
+		if (map->isWalkable(x, y - 1))
+			player->setPosition(x, y - 1);
+	}
+
+	void GameEngine::moveDown(int y, int x)
+	{
+		if (map->isWalkable(x, y + 1))
+			player->setPosition(x, y + 1);
+	}
+
+	void GameEngine::moveLeft(int y, int x)
+	{
+		if (map->isWalkable(x - 1, y))
+			player->setPosition(x - 1, y);
+	}
+
+	void GameEngine::moveRight(int y, int x)
+	{
+		if (map->isWalkable(x + 1, y))
+			player->setPosition(x + 1, y);
+	}
+
+	void GameEngine::moveUpLeft(int y, int x)
+	{
+		if (map->isWalkable(x - 1, y - 1))
+			player->setPosition(x - 1, y - 1);
+	}
+
+	void GameEngine::moveUpRight(int y, int x)
+	{
+		if (map->isWalkable(x + 1, y - 1))
+			player->setPosition(x + 1, y - 1);
+	}
+
+	void GameEngine::moveDownLeft(int y, int x)
+	{
+		if (map->isWalkable(x - 1, y + 1))
+			player->setPosition(x - 1, y + 1);
+	}
+
+	void GameEngine::moveDownRight(int y, int x)
+	{
+		if (map->isWalkable(x + 1, y + 1))
+			player->setPosition(x + 1, y + 1);
+	}
+
+	void GameEngine::wait(int y, int x)
+	{
+		player->setPosition(x, y);
+	}
+
+#pragma endregion
 }

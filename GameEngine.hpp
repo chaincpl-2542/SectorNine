@@ -16,6 +16,17 @@ namespace CPL
 		void render();
 		void release();
 
+		//Movement
+		void moveUp(int y, int x);
+		void moveDown(int y, int x);
+		void moveLeft(int y, int x);
+		void moveRight(int y, int x);
+		void moveUpLeft(int y, int x);
+		void moveUpRight(int y, int x);
+		void moveDownLeft(int y, int x);
+		void moveDownRight(int y, int x);
+		void wait(int y, int x);
+
 	private:
 		std::unique_ptr<Map> map;
 		std::unique_ptr<Player> player;
