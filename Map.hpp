@@ -13,6 +13,7 @@ namespace CPL
 		void DrawEntities(const Entity& entity);
 		void ClearEntities();
 		bool isWalkable(int x, int y) const;
+		void generateRooms(int numRooms);
 
 	private:
 		const unsigned int width = 80;

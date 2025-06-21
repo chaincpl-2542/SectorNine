@@ -1,4 +1,4 @@
-#include "GameEngine.hpp"
+﻿#include "GameEngine.hpp"
 #include "Player.hpp"
 #include <iostream>
 #include <conio.h>
@@ -14,12 +14,13 @@ namespace CPL
 	{
 		std::cout << "Init" << std::endl;
 		map = std::make_unique<Map>();
-		player = std::make_unique<Player>();
-		player->setPosition(2, 2);
+		map->generateRooms(8);
 
-		enemies.push_back(std::make_shared<Enemy>());
-		enemies.push_back(std::make_shared<Enemy>());
-		enemies.push_back(std::make_shared<Enemy>());
+		player = std::make_unique<Player>();
+
+		//enemies.push_back(std::make_shared<Enemy>());
+		//enemies.push_back(std::make_shared<Enemy>());
+		//enemies.push_back(std::make_shared<Enemy>());
 		map->Draw();
 	}	
 
@@ -156,6 +157,8 @@ namespace CPL
 		std::cout << "7 = up-left, 8 = up, 9 = up-right" << std::endl;
 		std::cout << "4 = left,    5 = wait, 6 = right" << std::endl;
 		std::cout << "1 = down-left, 2 = down, 3 = down-right" << std::endl;
+		std::cout << "===================== Control Map======================" << std::endl;
+		std::cout << "7 8 9 \n4 5 6 \n1 2 3" << std::endl;
 		std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
 		std::cout << "=======================================================" <<std::endl;
 		std::cout << "\n" << std::endl;
