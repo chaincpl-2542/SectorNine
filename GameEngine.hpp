@@ -17,6 +17,9 @@ namespace CPL
 		void release();
 
 		//Movement
+		void move(int dx, int dy);
+		void tryMoveTo(int newX, int newY);
+
 		void moveUp(int y, int x);
 		void moveDown(int y, int x);
 		void moveLeft(int y, int x);
@@ -32,6 +35,9 @@ namespace CPL
 
 		//Clear console
 		void ClearConsole();
+
+		//Update enemy
+		void UpdateEnemyPosition();
 
 	private:
 		std::unique_ptr<Map> map;

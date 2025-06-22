@@ -1,8 +1,2 @@
-﻿  Map.cpp
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(24,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(26,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(62,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(64,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(74,18): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(74,42): warning C4018: '>=': signed/unsigned mismatch
-  Game.vcxproj -> C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\x64\Debug\Game.exe
+﻿  GameEngine.cpp
+  Game.vcxproj -> D:\GitHub\SectorNine\x64\Debug\Game.exe

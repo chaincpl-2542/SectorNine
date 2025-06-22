@@ -78,6 +78,20 @@ namespace CPL
 		return tile != '#';
 	}
 
+	TileType Map::getTileType(int x, int y) const {
+		if (y < 0 || y >= height || x < 0 || x >= width)
+			return WALL;
+
+		char tile = tiles[y][x];
+		switch (tile) {
+		case '#': return WALL;
+		case 'E': return ENEMY;
+		default:  return FLOOR;
+		}
+	}
+
+
+	//Stuck not working
 	void Map::generateRooms(int numRooms)
 	{
 		std::cout << "Generating rooms..." << std::endl;
@@ -121,5 +135,13 @@ namespace CPL
 				}
 			}
 		}
+	}
+	unsigned int Map::getWidth() const
+	{
+		return width;
+	}
+	unsigned int Map::getHeight() const
+	{
+		return height;
 	}
 }

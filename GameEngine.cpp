@@ -14,13 +14,29 @@ namespace CPL
 	{
 		std::cout << "Init" << std::endl;
 		map = std::make_unique<Map>();
-		map->generateRooms(8);
 
 		player = std::make_unique<Player>();
+		player->setPosition(2, 2);
 
-		//enemies.push_back(std::make_shared<Enemy>());
-		//enemies.push_back(std::make_shared<Enemy>());
-		//enemies.push_back(std::make_shared<Enemy>());
+		enemies.push_back(std::make_shared<Enemy>());
+		enemies.push_back(std::make_shared<Enemy>());
+		enemies.push_back(std::make_shared<Enemy>());
+
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			int x, y;
+			do {
+				x = rand() % (map->getWidth() - 2) + 1;
+				y = rand() % (map->getHeight() - 2) + 1;
+			} while (!map->isWalkable(x, y));
+
+			enemies[i]->setPosition(x, y);
+			map->DrawEntities(*enemies[i]);
+
+		}
+
+
+		map->DrawEntities(*player);
 		map->Draw();
 	}	
 
@@ -53,17 +69,15 @@ namespace CPL
 
 		switch (input)
 		{
-			case '8': moveUp(y, x); break;
-			case '2': moveDown(y, x); break;
-			case '4': moveLeft(y, x); break;
-			case '6': moveRight(y, x); break;
-			case '7': moveUpLeft(y, x); break;
-			case '9': moveUpRight(y, x); break;
-			case '1': moveDownLeft(y, x); break;
-			case '3': moveDownRight(y, x); break;
-			case '5': wait(y, x); break;
-			default:break;
-           
+			case '8': move(0, -1); break;
+			case '2': move(0, 1); break;
+			case '4': move(-1, 0); break;
+			case '6': move(1, 0); break;
+			case '7': move(-1, -1); break;
+			case '9': move(1, -1); break;
+			case '1': move(-1, 1); break;
+			case '3': move(1, 1); break;
+			case '5': move(0, 0); break;
 		}
 	}
 
@@ -73,6 +87,7 @@ namespace CPL
 
 		std::cout << "Render" << std::endl;
 		map->ClearEntities();
+		UpdateEnemyPosition();
 		map->DrawEntities(*player);
 		map->Draw();
 
@@ -84,6 +99,19 @@ namespace CPL
 		}
 	}
 
+	void GameEngine::UpdateEnemyPosition()
+	{
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			int x, y;
+			x = enemies[i]->getX();
+			y = enemies[i]->getY();
+
+			enemies[i]->setPosition(x, y);
+			map->DrawEntities(*enemies[i]);
+		}
+	}
+
 	void GameEngine::release()
 	{
 		std::cout << "Release" << std::endl;
@@ -92,57 +120,18 @@ namespace CPL
 
 #pragma region PlayerMovement
 
-	void GameEngine::moveUp(int y, int x)
+	void GameEngine::move(int dx, int dy)
 	{
-		if (map->isWalkable(x, y - 1))
-			player->setPosition(x, y - 1);
+		int x = player->getX();
+		int y = player->getY();
+		tryMoveTo(x + dx, y + dy);
 	}
 
-	void GameEngine::moveDown(int y, int x)
+	void GameEngine::tryMoveTo(int newX, int newY)
 	{
-		if (map->isWalkable(x, y + 1))
-			player->setPosition(x, y + 1);
-	}
-
-	void GameEngine::moveLeft(int y, int x)
-	{
-		if (map->isWalkable(x - 1, y))
-			player->setPosition(x - 1, y);
-	}
-
-	void GameEngine::moveRight(int y, int x)
-	{
-		if (map->isWalkable(x + 1, y))
-			player->setPosition(x + 1, y);
-	}
-
-	void GameEngine::moveUpLeft(int y, int x)
-	{
-		if (map->isWalkable(x - 1, y - 1))
-			player->setPosition(x - 1, y - 1);
-	}
-
-	void GameEngine::moveUpRight(int y, int x)
-	{
-		if (map->isWalkable(x + 1, y - 1))
-			player->setPosition(x + 1, y - 1);
-	}
-
-	void GameEngine::moveDownLeft(int y, int x)
-	{
-		if (map->isWalkable(x - 1, y + 1))
-			player->setPosition(x - 1, y + 1);
-	}
-
-	void GameEngine::moveDownRight(int y, int x)
-	{
-		if (map->isWalkable(x + 1, y + 1))
-			player->setPosition(x + 1, y + 1);
-	}
-
-	void GameEngine::wait(int y, int x)
-	{
-		player->setPosition(x, y);
+		if (map->getTileType(newX, newY) == FLOOR)
+			if (map->isWalkable(newX, newY))
+				player->setPosition(newX, newY);
 	}
 
 	void GameEngine::ShowHowToPlay()
