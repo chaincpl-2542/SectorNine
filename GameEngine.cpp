@@ -12,33 +12,41 @@ namespace CPL
 
 	void GameEngine::init()
 	{
-		std::cout << "Init" << std::endl;
+		srand(static_cast<unsigned int>(time(nullptr)));
+		std::cout << "Init\n";
+
+		/* ---------- สร้างแผนที่ ---------- */
 		map = std::make_unique<Map>();
+		map->generateRooms(12);                 // 12 = min-leaf-size ปรับได้
 
+		/* ---------- ตั้งตำแหน่งผู้เล่น ---------- */
+		auto [px, py] = map->getPlayerStart();  // เมธอดใหม่ใน Map (ดูด้านล่าง)
 		player = std::make_unique<Player>();
-		player->setPosition(2, 2);
+		player->setPosition(px, py);
+		map->DrawEntities(*player);
 
+		/* ---------- สร้างศัตรู ---------- */
+		enemies.clear();
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
 
-		for (int i = 0; i < enemies.size(); i++)
+		for (auto& enemy : enemies)
 		{
 			int x, y;
 			do {
 				x = rand() % (map->getWidth() - 2) + 1;
 				y = rand() % (map->getHeight() - 2) + 1;
-			} while (!map->isWalkable(x, y));
+			} while (!map->isWalkable(x, y) || (x == px && y == py));
 
-			enemies[i]->setPosition(x, y);
-			map->DrawEntities(*enemies[i]);
-
+			enemy->setPosition(x, y);
+			map->DrawEntities(*enemy);
 		}
 
-
-		map->DrawEntities(*player);
+		/* ---------- พิมพ์ผลลัพธ์ ---------- */
 		map->Draw();
-	}	
+	}
+
 
 	char GameEngine::handleInput()
 	{
@@ -103,11 +111,18 @@ namespace CPL
 	{
 		for (int i = 0; i < enemies.size(); i++)
 		{
-			int x, y;
-			x = enemies[i]->getX();
-			y = enemies[i]->getY();
+			auto path = enemies[i]->findPathToPlayer(*map, player->getX(), player->getY(), enemies);
+			if (!path.empty()) {
+				int dx = std::abs(enemies[i]->getX() - player->getX());
+				int dy = std::abs(enemies[i]->getY() - player->getY());
 
-			enemies[i]->setPosition(x, y);
+				if (dx > 1 || dy > 1) {
+					int nextX = path[0].first;
+					int nextY = path[0].second;
+					enemies[i]->setPosition(nextX, nextY);
+				}
+			}
+
 			map->DrawEntities(*enemies[i]);
 		}
 	}

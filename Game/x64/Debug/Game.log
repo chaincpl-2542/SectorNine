@@ -1,2 +1,9 @@
-﻿  GameEngine.cpp
-  Game.vcxproj -> D:\GitHub\SectorNine\x64\Debug\Game.exe
+﻿  Enemy.cpp
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Enemy.cpp(32,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Enemy.cpp(33,31): warning C4018: '<': signed/unsigned mismatch
+  GameEngine.cpp
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(76,7): warning C4189: 'y': local variable is initialized but not referenced
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(75,7): warning C4189: 'x': local variable is initialized but not referenced
+  main.cpp
+  Generating Code...
+  Game.vcxproj -> C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\x64\Debug\Game.exe

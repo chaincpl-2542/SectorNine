@@ -20,16 +20,6 @@ namespace CPL
 		void move(int dx, int dy);
 		void tryMoveTo(int newX, int newY);
 
-		void moveUp(int y, int x);
-		void moveDown(int y, int x);
-		void moveLeft(int y, int x);
-		void moveRight(int y, int x);
-		void moveUpLeft(int y, int x);
-		void moveUpRight(int y, int x);
-		void moveDownLeft(int y, int x);
-		void moveDownRight(int y, int x);
-		void wait(int y, int x);
-
 		//How to play
 		void ShowHowToPlay();
 
