@@ -1,0 +1,17 @@
+﻿  GameEngine.cpp
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\GameEngine.cpp(76,7): warning C4189: 'y': local variable is initialized but not referenced
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\GameEngine.cpp(75,7): warning C4189: 'x': local variable is initialized but not referenced
+  Map.cpp
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(16,21): warning C4018: '<': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(18,22): warning C4018: '<': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(38,15): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(47,21): warning C4018: '<': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(49,22): warning C4018: '<': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(59,18): warning C4018: '>=': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(59,42): warning C4018: '>=': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(67,18): warning C4018: '>=': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(67,42): warning C4018: '>=': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(135,21): warning C4018: '<': signed/unsigned mismatch
+D:\MU Works\GameEngine\RoguelikeGame\SectorNine\Map.cpp(137,22): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Game.vcxproj -> D:\MU Works\GameEngine\RoguelikeGame\SectorNine\x64\Debug\Game.exe

@@ -15,35 +15,35 @@ namespace CPL
 		srand(static_cast<unsigned int>(time(nullptr)));
 		std::cout << "Init\n";
 
-		/* ---------- สร้างแผนที่ ---------- */
 		map = std::make_unique<Map>();
-		map->generateRooms(12);                 // 12 = min-leaf-size ปรับได้
+		map->generateRoomsBSP();
 
-		/* ---------- ตั้งตำแหน่งผู้เล่น ---------- */
-		auto [px, py] = map->getPlayerStart();  // เมธอดใหม่ใน Map (ดูด้านล่าง)
+		auto [px, py] = map->getPlayerStart();
+
 		player = std::make_unique<Player>();
 		player->setPosition(px, py);
 		map->DrawEntities(*player);
 
-		/* ---------- สร้างศัตรู ---------- */
 		enemies.clear();
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
 		enemies.push_back(std::make_shared<Enemy>());
 
+		const int MIN_DIST = 10;
+
 		for (auto& enemy : enemies)
 		{
-			int x, y;
+			int ex, ey;
 			do {
-				x = rand() % (map->getWidth() - 2) + 1;
-				y = rand() % (map->getHeight() - 2) + 1;
-			} while (!map->isWalkable(x, y) || (x == px && y == py));
+				ex = rand() % (map->getWidth() - 2) + 1;
+				ey = rand() % (map->getHeight() - 2) + 1;
+			} while (!map->isWalkable(ex, ey) ||
+				std::abs(ex - px) + std::abs(ey - py) < MIN_DIST);
 
-			enemy->setPosition(x, y);
+			enemy->setPosition(ex, ey);
 			map->DrawEntities(*enemy);
 		}
 
-		/* ---------- พิมพ์ผลลัพธ์ ---------- */
 		map->Draw();
 	}
 

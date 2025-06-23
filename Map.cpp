@@ -1,22 +1,14 @@
 #include "Map.hpp"
 #include "Entity.hpp"
+#include "Leaf.hpp"
+#include "Room.hpp"
 #include <iostream>
 
 namespace CPL 
 {
-	struct Room {
-		int x, y;
-		int width, height;
-
-		bool intersects(const Room& other) const {
-			return !(x + width <= other.x || x >= other.x + other.width ||
-				y + height <= other.y || y >= other.y + other.height);
-		}
-	};
-
 	Map::Map() 
 	{
-		tiles.resize(height, std::vector<char>(width, '.'));
+		tiles.resize(height, std::vector<char>(width, '#'));
 	}
 
 	void Map::Draw() const
@@ -83,125 +75,120 @@ namespace CPL
 		}
 	}
 
-
-	void Map::generateRooms(int minLeafSize)
+	void Map::generateRoomsBSP()
 	{
-		// 1) ตั้งค่าพื้นที่ทั้งหมดเป็นกำแพงก่อน
-		tiles.assign(height, std::vector<char>(width, '#'));
+		srand(static_cast<unsigned int>(time(nullptr)));
 
-		// 2) เตรียม root leaf
-		Leaf root{ 1, 1, static_cast<int>(width - 2), static_cast<int>(height - 2) };
-		std::vector<Leaf*> leaves{ &root };
+		auto root = std::make_shared<Leaf>(1, 1, width - 2, height - 2);
 
-		// 3) แบ่งทั้งหมดลองจนแบ่งไม่ได้
+		std::vector<std::shared_ptr<Leaf>> leafs;
+		leafs.push_back(root);
 		bool didSplit = true;
 		while (didSplit)
 		{
 			didSplit = false;
-			std::vector<Leaf*> next;
-			for (Leaf* l : leaves)
+			std::vector<std::shared_ptr<Leaf>> newLeafs;
+
+			for (auto& l : leafs)
 			{
-				if (!l->left && !l->right && l->split(minLeafSize))
+				if (!l->leftChild && !l->rightChild)
 				{
-					// ถ้าแบ่งสำเร็จ เพิ่มลูกลง list
-					next.push_back(l->left);
-					next.push_back(l->right);
-					didSplit = true;
+					if ((l->width > Leaf::MIN_LEAF_SIZE * 2) ||
+						(l->height > Leaf::MIN_LEAF_SIZE * 2))
+					{
+						if (l->split())
+						{
+							newLeafs.push_back(l->leftChild);
+							newLeafs.push_back(l->rightChild);
+							didSplit = true;
+						}
+					}
 				}
-				else
-					next.push_back(l);
 			}
-			leaves.swap(next);
+			leafs.insert(leafs.end(), newLeafs.begin(), newLeafs.end());
 		}
 
-		// 4) สร้างห้องในแต่ละ leaf
-		std::vector<Room> rooms;
-		root.createRooms(*this, rooms);
+		root->createRooms();
 
-		// 5) วางผู้เล่นตรงกลางห้องแรก (ถ้ามี)
-		if (!rooms.empty())
+		bool firstRoomPlaced = false;
+		for (auto& l : leafs)
 		{
-			const Room& r = rooms.front();
-			int px = r.x + r.w / 2;
-			int py = r.y + r.h / 2;
-			tiles[py][px] = '@';     // Player start
-		}
-	}
+			if (!l->room) continue;
+			Room r = l->room.value();
 
-	bool Map::Leaf::split(int minLeaf)
-	{
-		if (left || right) return false;            // ถูกแบ่งไปแล้ว
+			for (int y = r.y; y < r.y + r.height; ++y)
+				for (int x = r.x; x < r.x + r.width; ++x)
+					tiles[y][x] = '.';
 
-		bool splitH = (rand() % 2) == 0;
-		if (w > h && static_cast<float>(w) / h >= 1.25f) splitH = false;
-		else if (h > w && static_cast<float>(h) / w >= 1.25f) splitH = true;
-
-		int max = (splitH ? h : w) - minLeaf;
-		if (max <= minLeaf) return false;           // เล็กเกินแบ่ง
-
-		int splitPos = minLeaf + rand() % (max - minLeaf);
-
-		if (splitH)
-		{   // แบ่งแนวนอน
-			left = new Leaf{ x,     y,     w, splitPos };
-			right = new Leaf{ x, y + splitPos, w, h - splitPos };
-		}
-		else
-		{   // แบ่งแนวตั้ง
-			left = new Leaf{ x, y, splitPos, h };
-			right = new Leaf{ x + splitPos, y, w - splitPos, h };
-		}
-		return true;
-	}
-
-	void Map::Leaf::createRooms(Map& map, std::vector<Room>& rooms)
-	{
-		if (left || right)
-		{
-			// มีลูก => ไล่ต่อ
-			if (left)  left->createRooms(map, rooms);
-			if (right) right->createRooms(map, rooms);
-
-			// เชื่อมห้องลูกซ้าย-ขวา
-			if (left && right)
+			if (!firstRoomPlaced)
 			{
-				Room a = left->room;
-				Room b = right->room;
-				int ax = a.x + a.w / 2;
-				int ay = a.y + a.h / 2;
-				int bx = b.x + b.w / 2;
-				int by = b.y + b.h / 2;
-
-				// เดินแนวนอนก่อนแล้วลง/ขึ้น
-				for (int x = std::min(ax, bx); x <= std::max(ax, bx); ++x) map.tiles[ay][x] = '.';
-				for (int y = std::min(ay, by); y <= std::max(ay, by); ++y) map.tiles[y][bx] = '.';
+				int cx = r.centerX();
+				int cy = r.centerY();
+				playerStart = { cx, cy };
+				firstRoomPlaced = true;
 			}
+		}
+
+
+		connectLeafs(root);
+
+		for (int y = 1; y < height - 1; ++y)
+		{
+			for (int x = 1; x < width - 1; ++x)
+			{
+				if (tiles[y][x] != '#') continue;
+
+				bool nearFloor =
+					tiles[y - 1][x] == '.' || tiles[y + 1][x] == '.'
+					|| tiles[y][x - 1] == '.' || tiles[y][x + 1] == '.';
+
+				if (!nearFloor)
+					tiles[y][x] = ' ';
+			}
+		}
+	}
+
+	void Map::carveHorizontal(int x1, int x2, int y)
+	{
+		if (x1 > x2) std::swap(x1, x2);
+		for (int x = x1; x <= x2; ++x) tiles[y][x] = '.';
+	}
+
+	void Map::carveVertical(int y1, int y2, int x)
+	{
+		if (y1 > y2) std::swap(y1, y2);
+		for (int y = y1; y <= y2; ++y) tiles[y][x] = '.';
+	}
+
+	void Map::connectLeafs(std::shared_ptr<Leaf> node)
+	{
+		if (!node || !node->leftChild || !node->rightChild) return;
+
+		Room a = node->leftChild->getRoom().value();
+		Room b = node->rightChild->getRoom().value();
+
+		int ax = a.centerX();
+		int ay = a.centerY();
+		int bx = b.centerX();
+		int by = b.centerY();
+
+		if (rand() % 2)
+		{
+			carveHorizontal(ax, bx, ay);
+			carveVertical(ay, by, bx);
 		}
 		else
 		{
-			// ใบสุดท้าย => ขุดห้อง
-			int roomW = 4 + rand() % (w - 4);
-			int roomH = 4 + rand() % (h - 4);
-			int roomX = x + rand() % (w - roomW);
-			int roomY = y + rand() % (h - roomH);
-
-			room = { roomX, roomY, roomW, roomH };
-
-			for (int iy = roomY; iy < roomY + roomH; ++iy)
-				for (int ix = roomX; ix < roomX + roomW; ++ix)
-					map.tiles[iy][ix] = '.';
-
-			rooms.push_back(room);
+			carveVertical(ay, by, ax);
+			carveHorizontal(ax, bx, by);
 		}
+		connectLeafs(node->leftChild);
+		connectLeafs(node->rightChild);
 	}
 
 	std::pair<int, int> Map::getPlayerStart() const
 	{
-		for (int y = 0; y < height; ++y)
-			for (int x = 0; x < width; ++x)
-				if (tiles[y][x] == '@')
-					return { x, y };
-		return { 1, 1 };
+		return playerStart;
 	}
 
 
