@@ -9,6 +9,8 @@ namespace CPL
 	Map::Map() 
 	{
 		tiles.resize(height, std::vector<char>(width, '#'));
+
+		doorOpen.resize(height, std::vector<bool>(width, false));
 	}
 
 	void Map::Draw() const
@@ -19,10 +21,21 @@ namespace CPL
 			{
 				char c = tiles[y][x];
 
-				if (c == '@')
-					std::cout << "\033[1;32m" << c << "\033[0m";
-				else if (c == 'E')
-					std::cout << "\033[1;31m" << c << "\033[0m";
+				if (c == '+') {
+					bool open = doorOpen[y][x];
+					std::cout << (open ? "\033[1;32m+\033[0m"
+						: "\033[1;31m+\033[0m");
+					continue;
+				}
+
+				if (c == '@') {
+					std::cout << "\033[1;32m@\033[0m";
+					continue;
+				}
+				else if (c == 'E') {
+					std::cout << "\033[1;31mE\033[0m";
+					continue;
+				}
 				else
 					std::cout << c;
 			}
@@ -36,7 +49,8 @@ namespace CPL
 		int x = entity.getX();
 		int y = entity.getY();
 		char symbol = entity.getSymbol();
-		tiles[y][x] = symbol;
+		if (tiles[y][x] != '+')
+			tiles[y][x] = symbol;
 
 		if(symbol == '@')
 			std::cout << "Player: (" << x << ", " << y << ")\n";
@@ -56,23 +70,39 @@ namespace CPL
 
 	bool Map::isWalkable(int x, int y) const
 	{
-		if (y < 0 || y >= height || x < 0 || x >= width)
-			return false;
+		if (y < 0 || y >= height || x < 0 || x >= width) return false;
 
-		char tile = tiles[y][x];
-		return tile != '#';
+		char t = tiles[y][x];
+		if (t == '+')
+			return doorOpen[y][x];
+		else
+			return t == '.' || t == '@';
 	}
 
-	TileType Map::getTileType(int x, int y) const {
-		if (y < 0 || y >= height || x < 0 || x >= width)
-			return WALL;
 
-		char tile = tiles[y][x];
-		switch (tile) {
-		case '#': return WALL;
+	TileType Map::getTileType(int x, int y) const
+	{
+		if (y < 0 || y >= height || x < 0 || x >= width) return WALL;
+
+		char t = tiles[y][x];
+		switch (t)
+		{
+		case '+': return doorOpen[y][x] ? FLOOR : WALL;
+		case '.': return FLOOR;
 		case 'E': return ENEMY;
-		default:  return FLOOR;
+		default: return WALL;
 		}
+	}
+
+	void Map::toggleDoor(int x, int y)
+	{
+		if (tiles[y][x] == '+')
+			doorOpen[y][x] = !doorOpen[y][x];
+	}
+
+	bool Map::isDoorOpen(int x, int y) const
+	{
+		return tiles[y][x] == '+' && doorOpen[y][x];
 	}
 
 	void Map::generateRoomsBSP()
@@ -151,13 +181,15 @@ namespace CPL
 	void Map::carveHorizontal(int x1, int x2, int y)
 	{
 		if (x1 > x2) std::swap(x1, x2);
-		for (int x = x1; x <= x2; ++x) tiles[y][x] = '.';
+		for (int x = x1; x <= x2; ++x)
+			if (tiles[y][x] != '+') tiles[y][x] = '.';
 	}
 
 	void Map::carveVertical(int y1, int y2, int x)
 	{
 		if (y1 > y2) std::swap(y1, y2);
-		for (int y = y1; y <= y2; ++y) tiles[y][x] = '.';
+		for (int y = y1; y <= y2; ++y)
+			if (tiles[y][x] != '+') tiles[y][x] = '.';
 	}
 
 	void Map::connectLeafs(std::shared_ptr<Leaf> node)
@@ -167,30 +199,85 @@ namespace CPL
 		Room a = node->leftChild->getRoom().value();
 		Room b = node->rightChild->getRoom().value();
 
-		int ax = a.centerX();
-		int ay = a.centerY();
-		int bx = b.centerX();
-		int by = b.centerY();
+		int ax = a.centerX(), ay = a.centerY();
+		int bx = b.centerX(), by = b.centerY();
 
 		if (rand() % 2)
-		{
-			carveHorizontal(ax, bx, ay);
-			carveVertical(ay, by, bx);
-		}
+			digPathWithDoor(ax, ay, bx, ay), digPathWithDoor(bx, ay, bx, by);
 		else
-		{
-			carveVertical(ay, by, ax);
-			carveHorizontal(ax, bx, by);
-		}
+			digPathWithDoor(ax, ay, ax, by), digPathWithDoor(ax, by, bx, by);
+
 		connectLeafs(node->leftChild);
 		connectLeafs(node->rightChild);
+	}
+
+	void Map::digPathWithDoor(int x1, int y1, int x2, int y2)
+	{
+		int dx = (x2 > x1) ? 1 : -1;
+		bool doorPlaced = false;
+
+		for (int x = x1; x != x2 + dx; x += dx)
+		{
+			if (tiles[y1][x] == '#')
+			{
+				if (!doorPlaced)
+				{
+					if (rand() % 100 < doorChance)
+					{
+						tiles[y1][x] = '+';
+						doorOpen[y1][x] = false;
+					}
+					else
+					{
+						tiles[y1][x] = '.';
+					}
+					doorPlaced = true;
+				}
+				else
+					tiles[y1][x] = '.';
+			}
+			else if (tiles[y1][x] != '+')
+				tiles[y1][x] = '.';
+		}
+
+		int dy = (y2 > y1) ? 1 : -1;
+		doorPlaced = false;
+
+		for (int y = y1 + dy; y != y2 + dy; y += dy)
+		{
+			if (tiles[y][x2] == '#')
+			{
+				if (!doorPlaced)
+				{
+					if (rand() % 100 < doorChance)
+					{
+						tiles[y][x2] = '+';
+						doorOpen[y][x2] = false;
+					}
+					else
+					{
+						tiles[y][x2] = '.';
+					}
+					doorPlaced = true;
+				}
+				else
+					tiles[y][x2] = '.';
+			}
+			else if (tiles[y][x2] != '+')
+				tiles[y][x2] = '.';
+		}
+	}
+
+	bool Map::isDoor(int x, int y) const
+	{
+		if (x < 0 || x >= width || y < 0 || y >= height) return false;
+		return tiles[y][x] == '+';
 	}
 
 	std::pair<int, int> Map::getPlayerStart() const
 	{
 		return playerStart;
 	}
-
 
 	unsigned int Map::getWidth() const
 	{

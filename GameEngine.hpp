@@ -18,7 +18,9 @@ namespace CPL
 
 		//Movement
 		void move(int dx, int dy);
-		void tryMoveTo(int newX, int newY);
+		bool tryMoveTo(int newX, int newY);
+
+		void toggleDoorAroundPlayer();
 
 		//How to play
 		void ShowHowToPlay();

@@ -30,15 +30,15 @@ namespace CPL
 		enemies.push_back(std::make_shared<Enemy>());
 
 		const int MIN_DIST = 10;
-
 		for (auto& enemy : enemies)
 		{
 			int ex, ey;
 			do {
 				ex = rand() % (map->getWidth() - 2) + 1;
 				ey = rand() % (map->getHeight() - 2) + 1;
-			} while (!map->isWalkable(ex, ey) ||
-				std::abs(ex - px) + std::abs(ey - py) < MIN_DIST);
+			} while (
+				map->getTileType(ex, ey) != FLOOR
+				|| std::abs(ex - px) + std::abs(ey - py) < MIN_DIST);
 
 			enemy->setPosition(ex, ey);
 			map->DrawEntities(*enemy);
@@ -64,7 +64,7 @@ namespace CPL
 				ShowHowToPlay();
 				return ' ';
 			}
-			return ' ';
+			return static_cast<char>(input);
 		}
 
 		return static_cast<char>(input);
@@ -86,6 +86,8 @@ namespace CPL
 			case '1': move(-1, 1); break;
 			case '3': move(1, 1); break;
 			case '5': move(0, 0); break;
+			case 'o': toggleDoorAroundPlayer(); break;
+			case '0': toggleDoorAroundPlayer(); break;
 		}
 	}
 
@@ -137,16 +139,37 @@ namespace CPL
 
 	void GameEngine::move(int dx, int dy)
 	{
-		int x = player->getX();
-		int y = player->getY();
-		tryMoveTo(x + dx, y + dy);
+		tryMoveTo(player->getX() + dx, player->getY() + dy);
 	}
 
-	void GameEngine::tryMoveTo(int newX, int newY)
+	bool GameEngine::tryMoveTo(int newX, int newY)
 	{
-		if (map->getTileType(newX, newY) == FLOOR)
-			if (map->isWalkable(newX, newY))
-				player->setPosition(newX, newY);
+		if (map->getTileType(newX, newY) == FLOOR &&
+			map->isWalkable(newX, newY))
+		{
+			player->setPosition(newX, newY);
+			return true;
+		}
+		return false;
+	}
+
+	void GameEngine::toggleDoorAroundPlayer()
+	{
+		int px = player->getX();
+		int py = player->getY();
+
+		const int dir[5][2] = { {0,0}, {0,-1}, {0,1}, {-1,0}, {1,0} };
+
+		for (auto& d : dir)
+		{
+			int tx = px + d[0];
+			int ty = py + d[1];
+
+			if (map->isDoor(tx, ty)) {
+				map->toggleDoor(tx, ty);
+				break;
+			}
+		}
 	}
 
 	void GameEngine::ShowHowToPlay()
