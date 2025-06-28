@@ -1,21 +1,8 @@
-﻿  Map.cpp
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(18,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(20,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(69,15): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(79,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(81,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(91,18): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(91,42): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(103,18): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(103,42): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(200,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(202,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(217,19): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(217,42): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(223,19): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(223,42): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(320,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(322,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(350,18): warning C4018: '>=': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\Map.cpp(350,41): warning C4018: '>=': signed/unsigned mismatch
+﻿  GameEngine.cpp
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(75,7): warning C4189: 'y': local variable is initialized but not referenced
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(74,7): warning C4189: 'x': local variable is initialized but not referenced
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(122,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(124,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(137,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(137,48): warning C4018: '<': signed/unsigned mismatch
   Game.vcxproj -> C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\x64\Debug\Game.exe

@@ -1,0 +1,12 @@
+{
+  "map": {
+    "width": 80,
+    "height": 25
+  },
+  "door": { "chance": 30 },
+  "player": {
+    "hp": 12,
+    "sight": 5
+  },
+  "enemy": { "amount": 3 }
+}

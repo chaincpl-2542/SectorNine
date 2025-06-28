@@ -6,7 +6,7 @@
 
 namespace CPL 
 {
-	Map::Map() 
+	Map::Map(int w, int h, int chance) : width(w), height(h), doorChance(chance)
 	{
 		tiles.resize(height, std::vector<char>(width, '#'));
 
@@ -28,7 +28,7 @@ namespace CPL
 				{
 					char c = tiles[y][x];
 
-					if (c == '#' || c == '+')
+					if (c == '#' || c == '+' || c == 'L' || c == 'O')
 					{
 						std::cout << c;
 					}
@@ -42,15 +42,30 @@ namespace CPL
 				char c = tiles[y][x];
 
 				if (c == '+') {
-					bool open = doorOpen[y][x];
-					std::cout << (open ? "\033[1;32m+\033[0m"
-						: "\033[1;31m+\033[0m");
+					std::cout << (doorOpen[y][x] ? 
+						"\033[1;32m+\033[0m" : 
+						"\033[1;31m+\033[0m");
+				}
+				else if (c == 'L')
+				{
+					std::cout << (doorOpen[y][x] ?
+						"\033[1;32mL\033[0m" :
+						"\033[1;31mL\033[0m");
+				}
+				else if (c == 'P') {
+					std::cout << "\033[1;33mP\033[0m";
+				}
+				else if (c == 'O') {
+					std::cout << "\033[1;33mO\033[0m";
 				}
 				else if (c == '@') {
 					std::cout << "\033[1;32m@\033[0m";
 				}
 				else if (c == 'E') {
 					std::cout << "\033[1;31mE\033[0m";
+				}
+				else if (c == 'M') {
+					std::cout << "\033[1;34mM\033[0m";
 				}
 				else {
 					std::cout << c;
@@ -67,11 +82,9 @@ namespace CPL
 		int x = entity.getX();
 		int y = entity.getY();
 		char symbol = entity.getSymbol();
-		if (tiles[y][x] != '+')
-			tiles[y][x] = symbol;
-
-		if(symbol == '@')
-			std::cout << "Player: (" << x << ", " << y << ")\n";
+		if (tiles[y][x] == '+' || (tiles[y][x] == 'L' && !doorOpen[y][x]))
+			return;
+		tiles[y][x] = symbol;
 	}
 
 	void Map::ClearEntities()
@@ -81,7 +94,12 @@ namespace CPL
 			for (int x = 1; x < width - 1; ++x)
 			{
 				if (tiles[y][x] == '@' || tiles[y][x] == 'E')
-					tiles[y][x] = '.';
+				{
+					if (doorOpen[y][x])
+						tiles[y][x] = 'L';
+					else
+						tiles[y][x] = '.';
+				}
 			}
 		}
 	}
@@ -91,10 +109,14 @@ namespace CPL
 		if (y < 0 || y >= height || x < 0 || x >= width) return false;
 
 		char t = tiles[y][x];
-		if (t == '+')
+
+		if (t == '+') 
 			return doorOpen[y][x];
-		else
-			return t == '.' || t == '@' || t == 'O';
+		if (t == 'L') 
+			return doorOpen[y][x]; 
+		if (t == 'M') 
+			return true;
+		return t == '.' || t == '@' || t == 'P' || t == 'O';
 	}
 
 
@@ -108,20 +130,38 @@ namespace CPL
 		case '+': return doorOpen[y][x] ? FLOOR : WALL;
 		case '.': return FLOOR;
 		case 'E': return ENEMY;
-		case 'O':  return ESCAPE;
-		default: return WALL;
+		case 'O': return ESCAPE;
+		case 'P': return PASS_KEY;
+		case 'L': return doorOpen[y][x] ? FLOOR : LOCKED_DOOR;
+		case 'M': return MAP;
+		default:  return WALL;
 		}
 	}
 
 	void Map::toggleDoor(int x, int y)
 	{
-		if (tiles[y][x] == '+')
+		if (tiles[y][x] == '+' || tiles[y][x] == 'L')
 			doorOpen[y][x] = !doorOpen[y][x];
 	}
 
 	bool Map::isDoorOpen(int x, int y) const
 	{
-		return tiles[y][x] == '+' && doorOpen[y][x];
+		if (x < 0 || x >= width || y < 0 || y >= height) return false;
+		return (tiles[y][x] == '+' || tiles[y][x] == 'L') && doorOpen[y][x];
+	}
+
+	void Map::setDoorOpen(int x, int y, bool open)
+	{
+		if (tiles[y][x] == '+' || tiles[y][x] == 'L')
+			doorOpen[y][x] = open;
+	}
+
+	void Map::unlockAllLockedDoors()
+	{
+		for (int y = 0; y < height; ++y)
+			for (int x = 0; x < width; ++x)
+				if (tiles[y][x] == 'L')
+					doorOpen[y][x] = true;
 	}
 
 	void Map::generateRoomsBSP()
@@ -194,8 +234,70 @@ namespace CPL
 		connectLeafs(root);
 
 		setTile(escapePos.first, escapePos.second, 'O');
-		doorOpen[escapePos.second][escapePos.first] = true;
-		revealed[escapePos.second][escapePos.first] = true;
+
+		Room exitRoom;
+		for (auto& l : leafs) {
+			if (l->room && l->room->contains(escapePos.first, escapePos.second)) {
+				exitRoom = l->room.value();
+				break;
+			}
+		}
+
+		auto lockTile = [&](int x, int y)
+			{
+				if (tiles[y][x] == '+' || tiles[y][x] == '.')
+				{
+					tiles[y][x] = 'L';
+					doorOpen[y][x] = false;
+				}
+			};
+
+		for (int x = exitRoom.x; x < exitRoom.x + exitRoom.width; ++x)
+		{
+			lockTile(x, exitRoom.y - 1);
+			lockTile(x, exitRoom.y + exitRoom.height);
+		}
+		for (int y = exitRoom.y; y < exitRoom.y + exitRoom.height; ++y)
+		{
+			lockTile(exitRoom.x - 1, y);
+			lockTile(exitRoom.x + exitRoom.width, y);
+		}
+
+		bool keyPlaced = false;
+		while (!keyPlaced)
+		{
+			auto& leaf = leafs[rand() % leafs.size()];
+			if (!leaf->room) continue;
+
+			Room r = leaf->room.value();
+			if (r.contains(escapePos.first, escapePos.second)) continue;
+
+			int kx = r.centerX();
+			int ky = r.centerY();
+			if (tiles[ky][kx] == '.')
+			{
+				tiles[ky][kx] = 'P';
+				keyPlaced = true;
+			}
+		}
+
+		bool mapPlaced = false;
+		while (!mapPlaced)
+		{
+			auto& leaf = leafs[rand() % leafs.size()];
+			if (!leaf->room) continue;
+
+			Room r = leaf->room.value();
+			if (r.contains(escapePos.first, escapePos.second)) continue;
+
+			int mx = r.centerX();
+			int my = r.centerY();
+			if (tiles[my][mx] == '.')
+			{
+				tiles[my][mx] = 'M';
+				mapPlaced = true;
+			}
+		}
 
 		for (int y = 1; y < height - 1; ++y)
 		{
@@ -327,6 +429,16 @@ namespace CPL
 				{
 					std::cout << '#';
 				}
+				else if (c == 'P')
+				{
+					std::cout << "\033[1;33mP\033[0m";
+				}
+				else if (c == 'L')
+				{
+					std::cout << (doorOpen[y][x] ? 
+						"\033[1;32mL\033[0m": 
+						"\033[1;31mL\033[0m");
+				}
 				else if (c == '+')
 				{
 					std::cout << (doorOpen[y][x] ? "\033[1;32m+\033[0m" : "\033[1;31m+\033[0m");
@@ -334,6 +446,10 @@ namespace CPL
 				else if (c == 'O')
 				{
 					std::cout << "\033[1;33mO\033[0m";
+				}
+				else if (c == 'M')
+				{
+					std::cout << "\033[1;34mM\033[0m";
 				}
 				else
 				{
@@ -344,11 +460,17 @@ namespace CPL
 		}
 	}
 
+	void Map::revealWholeDungeon()
+	{
+		for (auto& row : revealed)
+			std::fill(row.begin(), row.end(), true);
+	}
+
 
 	bool Map::isDoor(int x, int y) const
 	{
 		if (x < 0 || x >= width || y < 0 || y >= height) return false;
-		return tiles[y][x] == '+';
+		return tiles[y][x] == '+' || tiles[y][x] == 'L';
 	}
 
 	std::pair<int, int> Map::getPlayerStart() const

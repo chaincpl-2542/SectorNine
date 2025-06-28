@@ -2,7 +2,8 @@
 
 namespace CPL 
 {
-	Player::Player():Entity(0, 0, '@') {
+	Player::Player(int hp) : Entity(0, 0, '@'), hp(hp)
+	{
 
 	}
 }

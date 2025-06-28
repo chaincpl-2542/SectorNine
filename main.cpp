@@ -1,28 +1,48 @@
 #include <iostream>
 #include <memory>
+#include <conio.h> 
 #include "GameEngine.hpp"
 #include "Map.hpp"
 
 using namespace CPL;
 
-int main() 
+int main()
 {
-	std::unique_ptr<GameEngine> gameEngine = std::make_unique<GameEngine>(); //fix memory leak
-	gameEngine->init();
+    using namespace CPL;
 
-	while (!gameEngine->gameWon) 
-	{
-		char input = gameEngine->handleInput();
+    GameEngine engine;
+    engine.init();
 
-		if (input == 'x')
-			break;
+    bool waitingRestart = false;
 
-		gameEngine->update(input);
-		// Draw map
-		gameEngine->render();
-	}
-	std::cout << "\n*** YOU ESCAPED SECTOR NINE! ***\n";
-	gameEngine->release();
+    while (true)
+    {
+        engine.render();
+        if (engine.isGameOver())
+        {
+            if (!waitingRestart)
+            {
+                waitingRestart = true;
+                continue;
+            }
 
-	return 0;
+            while (_kbhit()) _getch();
+            _getch();
+            engine.restart();
+
+            waitingRestart = false;
+            continue;
+        }
+
+        if (engine.gameWon)
+        {
+            std::cout << "\n*** YOU ESCAPED! ***\n";
+            break;
+        }
+
+        char ch = engine.handleInput();
+        if (ch == 'x') break;
+
+        engine.update(ch);
+    }
 }

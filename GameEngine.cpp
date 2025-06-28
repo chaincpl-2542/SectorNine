@@ -7,7 +7,7 @@ namespace CPL
 {
 	GameEngine::GameEngine()
 	{
-
+		cfg.loadFromFile();
 	}
 
 	void GameEngine::init()
@@ -15,23 +15,20 @@ namespace CPL
 		srand(static_cast<unsigned int>(time(nullptr)));
 		std::cout << "Init\n";
 
-		map = std::make_unique<Map>();
+		map = std::make_unique<Map>(cfg.mapWidth, cfg.mapHeight, cfg.doorChance);
 		map->generateRoomsBSP();
 
 		auto [px, py] = map->getPlayerStart();
 
-		player = std::make_unique<Player>();
+		player = std::make_unique<Player>(cfg.playerHP);
 		player->setPosition(px, py);
 		map->DrawEntities(*player);
 
-		map->UpdateVisibility(px, py, 5);
-
-		map->ShowStaticMapOnly();
+		map->UpdateVisibility(px, py, cfg.playerSight);
 
 		enemies.clear();
-		enemies.push_back(std::make_shared<Enemy>());
-		//enemies.push_back(std::make_shared<Enemy>());
-		//enemies.push_back(std::make_shared<Enemy>());
+		for (int i = 0; i < cfg.enemyAmount; ++i)
+			enemies.push_back(std::make_shared<Enemy>());
 
 		const int MIN_DIST = 10;
 		for (auto& enemy : enemies)
@@ -55,8 +52,6 @@ namespace CPL
 	char GameEngine::handleInput()
 	{
 		const int F1 = 59; // F1 key
-
-		std::cout << "Press F1 to see how to play." << std::endl;
 
 		int input = _getch();
 
@@ -97,20 +92,29 @@ namespace CPL
 
 	void GameEngine::render()
 	{
+		if (gameOver)
+		{
+			ClearConsole();
+
+			std::cout << "Game Over\n"
+				"=======\n"
+				"Thank you for playing\n"
+				"=======\n"
+				"Make by Peeranat Luangaram and Olivia\n\n"
+				"Press any key to restart the game.";
+			return;
+		}
+
 		ClearConsole();
 
-		std::cout << "Render" << std::endl;
 		map->ClearEntities();
 		UpdateEnemyPosition();
 		map->DrawEntities(*player);
 		map->Draw();
 
-		std::cout << static_cast<char>(player->getSymbol());
-
-		for (int i = 0; i < enemies.size(); i++)
-		{
-			std::cout << static_cast<char>(enemies[i]->getSymbol());
-		}
+		int maxHp = cfg.playerHP;
+		std::cout << "\nHP: " << player->getHP() << "/" << maxHp << "  "
+			<< "[F1] Show how to play\n";
 	}
 
 	void Map::UpdateVisibility(int px, int py, int radius = 5)
@@ -144,22 +148,37 @@ namespace CPL
 
 	void GameEngine::UpdateEnemyPosition()
 	{
-		for (int i = 0; i < enemies.size(); i++)
-		{
-			auto path = enemies[i]->findPathToPlayer(*map, player->getX(), player->getY(), enemies);
-			if (!path.empty()) {
-				int dx = std::abs(enemies[i]->getX() - player->getX());
-				int dy = std::abs(enemies[i]->getY() - player->getY());
 
-				if (dx > 1 || dy > 1) {
-					int nextX = path[0].first;
-					int nextY = path[0].second;
-					enemies[i]->setPosition(nextX, nextY);
+		for (auto& enemy : enemies)
+		{
+			auto path = enemy->findPathToPlayer(*map,
+				player->getX(), player->getY(), enemies);
+
+			if (!path.empty())
+			{
+				int nextX = path[0].first;
+				int nextY = path[0].second;
+
+				if (nextX == player->getX() && nextY == player->getY())
+				{
+					player->takeDamage();
+					std::cout << "Enemy hits you!  HP: "
+						<< player->getHP() << "/12\n";
+
+					if (player->isDead())
+					{
+						std::cout << "You died...\n";
+						gameOver = true;
+					}
+				}
+				else
+				{
+					enemy->setPosition(nextX, nextY);
 				}
 			}
-
-			map->DrawEntities(*enemies[i]);
+			map->DrawEntities(*enemy);
 		}
+		
 	}
 
 	void GameEngine::release()
@@ -177,40 +196,92 @@ namespace CPL
 
 	bool GameEngine::tryMoveTo(int newX, int newY)
 	{
-		if (map->getTileType(newX, newY) == ESCAPE)
+		TileType tile = map->getTileType(newX, newY);
+
+		if (tile == ESCAPE)
 		{
 			player->setPosition(newX, newY);
 			gameWon = true;
 			return true;
-
 		}
-		if (map->getTileType(newX, newY) == FLOOR &&
-			map->isWalkable(newX, newY))
+
+		if (tile == FLOOR && map->isWalkable(newX, newY))
 		{
 			player->setPosition(newX, newY);
 			map->UpdateVisibility(newX, newY);
-
 			return true;
 		}
+
+		if (tile == PASS_KEY && map->isWalkable(newX, newY))
+		{
+			player->givePassKey();
+			map->unlockAllLockedDoors();
+			map->setTile(newX, newY, '.');
+			player->setPosition(newX, newY);
+			map->UpdateVisibility(newX, newY);
+			return true;
+		}
+
+		if (map->getTile(newX, newY) == 'M')
+		{
+			player->giveMap();
+			map->revealWholeDungeon();
+			map->setTile(newX, newY, '.');
+			std::cout << "You found a map!\n";
+			player->setPosition(newX, newY);
+			map->UpdateVisibility(newX, newY);
+			return true;
+		}
+
+		if (tile == LOCKED_DOOR)
+		{
+			if (!map->isDoorOpen(newX, newY))
+			{
+				if (!player->hasPassKey())
+				{
+					std::cout << "Need keycard.\n";
+					return false;
+				}
+				 map->setDoorOpen(newX, newY, true);
+			}
+			player->setPosition(newX, newY);
+			map->UpdateVisibility(newX, newY);
+			return true;
+		}
+
+		if (tile == MAP)
+		{
+			player->giveMap();
+			map->revealWholeDungeon();
+			map->setTile(newX, newY, '.');
+			std::cout << "You found a map!\n";
+
+			player->setPosition(newX, newY);
+			map->UpdateVisibility(newX, newY);
+			return true;
+		}
+
+		if (tile == 'L' && !map->isDoorOpen(newX, newY))
+		{
+			std::cout << "Need keycard.\n";
+			return false;
+		}
+
 		return false;
 	}
 
+
 	void GameEngine::toggleDoorAroundPlayer()
 	{
-		int px = player->getX();
-		int py = player->getY();
-
-		const int dir[5][2] = { {0,0}, {0,-1}, {0,1}, {-1,0}, {1,0} };
+		int px = player->getX(), py = player->getY();
+		const int dir[5][2] = { {0,0},{0,-1},{0,1},{-1,0},{1,0} };
 
 		for (auto& d : dir)
 		{
-			int tx = px + d[0];
-			int ty = py + d[1];
+			int tx = px + d[0], ty = py + d[1];
+			char tile = map->getTile(tx, ty);
 
-			if (map->isDoor(tx, ty)) {
-				map->toggleDoor(tx, ty);
-				break;
-			}
+			if (tile == '+') { map->toggleDoor(tx, ty); break; }
 		}
 	}
 
@@ -236,6 +307,18 @@ namespace CPL
 		std::cout << "Press any key to continue..." << std::endl;
 
 		_getch();
+	}
+
+	void GameEngine::restart()
+	{
+		enemies.clear();
+		map.reset();
+		player.reset();
+
+		gameOver = false;
+		gameWon = false;
+
+		init();
 	}
 
 #pragma endregion

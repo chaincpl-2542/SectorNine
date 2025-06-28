@@ -20,6 +20,11 @@ namespace CPL
                 y + height <= other.y ||
                 y >= other.y + other.height);
         }
+
+        bool contains(int px, int py) const {
+            return px >= x && px < x + width &&
+                py >= y && py < y + height;
+        }
     };
 
 }
