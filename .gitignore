@@ -1,0 +1,42 @@
+# Build results
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.log
+*.sdf
+*.opensdf
+*.cache
+*.tlog
+*.idb
+
+# Precompiled headers and intermediates
+*.ipch/
+*.pch
+*.tmp
+
+# Visual Studio settings
+.vs/
+*.suo
+*.user
+*.VC.db
+*.dbmdl
+
+# Debug & Release folders
+Debug/
+Release/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Others
+*.log
+*.bak
+*.ncb
+*.aps
+
+# JSON config backup
+*.backup.json
