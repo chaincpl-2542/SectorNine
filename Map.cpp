@@ -19,29 +19,47 @@ namespace CPL
 		{
 			for (int x = 0; x < width; ++x)
 			{
+				if (!revealed[y][x]) {
+					std::cout << ' ';
+					continue;
+				}
+
+				if (!visible[y][x])
+				{
+					char c = tiles[y][x];
+
+					if (c == '#' || c == '+')
+					{
+						std::cout << c;
+					}
+					else
+					{
+						std::cout << ' ';
+					}
+					continue;
+				}
+
 				char c = tiles[y][x];
 
 				if (c == '+') {
 					bool open = doorOpen[y][x];
 					std::cout << (open ? "\033[1;32m+\033[0m"
 						: "\033[1;31m+\033[0m");
-					continue;
 				}
-
-				if (c == '@') {
+				else if (c == '@') {
 					std::cout << "\033[1;32m@\033[0m";
-					continue;
 				}
 				else if (c == 'E') {
 					std::cout << "\033[1;31mE\033[0m";
-					continue;
 				}
-				else
+				else {
 					std::cout << c;
+				}
 			}
 			std::cout << '\n';
 		}
 	}
+
 
 
 	void Map::DrawEntities(const Entity& entity)
@@ -76,7 +94,7 @@ namespace CPL
 		if (t == '+')
 			return doorOpen[y][x];
 		else
-			return t == '.' || t == '@';
+			return t == '.' || t == '@' || t == 'O';
 	}
 
 
@@ -90,6 +108,7 @@ namespace CPL
 		case '+': return doorOpen[y][x] ? FLOOR : WALL;
 		case '.': return FLOOR;
 		case 'E': return ENEMY;
+		case 'O':  return ESCAPE;
 		default: return WALL;
 		}
 	}
@@ -107,13 +126,16 @@ namespace CPL
 
 	void Map::generateRoomsBSP()
 	{
+		visible.assign(height, std::vector<bool>(width, false));
+		revealed.assign(height, std::vector<bool>(width, false));
+
 		srand(static_cast<unsigned int>(time(nullptr)));
 
 		auto root = std::make_shared<Leaf>(1, 1, width - 2, height - 2);
 
-		std::vector<std::shared_ptr<Leaf>> leafs;
-		leafs.push_back(root);
+		std::vector<std::shared_ptr<Leaf>> leafs{ root };
 		bool didSplit = true;
+
 		while (didSplit)
 		{
 			didSplit = false;
@@ -123,8 +145,8 @@ namespace CPL
 			{
 				if (!l->leftChild && !l->rightChild)
 				{
-					if ((l->width > Leaf::MIN_LEAF_SIZE * 2) ||
-						(l->height > Leaf::MIN_LEAF_SIZE * 2))
+					if (l->width > Leaf::MIN_LEAF_SIZE * 2 ||
+						l->height > Leaf::MIN_LEAF_SIZE * 2)
 					{
 						if (l->split())
 						{
@@ -141,6 +163,9 @@ namespace CPL
 		root->createRooms();
 
 		bool firstRoomPlaced = false;
+		int  maxDist = -1;
+		std::pair<int, int> escapePos{ 1,1 };
+
 		for (auto& l : leafs)
 		{
 			if (!l->room) continue;
@@ -152,15 +177,25 @@ namespace CPL
 
 			if (!firstRoomPlaced)
 			{
-				int cx = r.centerX();
-				int cy = r.centerY();
-				playerStart = { cx, cy };
+				playerStart = { r.centerX(), r.centerY() };
 				firstRoomPlaced = true;
+			}
+
+			int dist = std::abs(r.centerX() - playerStart.first) +
+				std::abs(r.centerY() - playerStart.second);
+
+			if (dist > maxDist)
+			{
+				maxDist = dist;
+				escapePos = { r.centerX(), r.centerY() };
 			}
 		}
 
-
 		connectLeafs(root);
+
+		setTile(escapePos.first, escapePos.second, 'O');
+		doorOpen[escapePos.second][escapePos.first] = true;
+		revealed[escapePos.second][escapePos.first] = true;
 
 		for (int y = 1; y < height - 1; ++y)
 		{
@@ -168,14 +203,26 @@ namespace CPL
 			{
 				if (tiles[y][x] != '#') continue;
 
-				bool nearFloor =
-					tiles[y - 1][x] == '.' || tiles[y + 1][x] == '.'
-					|| tiles[y][x - 1] == '.' || tiles[y][x + 1] == '.';
+				bool nearFloor = tiles[y - 1][x] == '.' || tiles[y + 1][x] == '.' ||
+					tiles[y][x - 1] == '.' || tiles[y][x + 1] == '.';
 
-				if (!nearFloor)
-					tiles[y][x] = ' ';
+				if (!nearFloor) tiles[y][x] = ' ';
 			}
 		}
+	}
+
+
+	void Map::setTile(int x, int y, char symbol)
+	{
+		if (x >= 0 && x < width && y >= 0 && y < height)
+			tiles[y][x] = symbol;
+	}
+
+	char Map::getTile(int x, int y) const
+	{
+		if (x >= 0 && x < width && y >= 0 && y < height)
+			return tiles[y][x];
+		return '#';
 	}
 
 	void Map::carveHorizontal(int x1, int x2, int y)
@@ -267,6 +314,36 @@ namespace CPL
 				tiles[y][x2] = '.';
 		}
 	}
+
+	void Map::ShowStaticMapOnly() const
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				char c = tiles[y][x];
+
+				if (c == '#')
+				{
+					std::cout << '#';
+				}
+				else if (c == '+')
+				{
+					std::cout << (doorOpen[y][x] ? "\033[1;32m+\033[0m" : "\033[1;31m+\033[0m");
+				}
+				else if (c == 'O')
+				{
+					std::cout << "\033[1;33mO\033[0m";
+				}
+				else
+				{
+					std::cout << ' ';
+				}
+			}
+			std::cout << '\n';
+		}
+	}
+
 
 	bool Map::isDoor(int x, int y) const
 	{

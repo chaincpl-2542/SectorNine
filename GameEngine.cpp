@@ -24,10 +24,14 @@ namespace CPL
 		player->setPosition(px, py);
 		map->DrawEntities(*player);
 
+		map->UpdateVisibility(px, py, 5);
+
+		map->ShowStaticMapOnly();
+
 		enemies.clear();
 		enemies.push_back(std::make_shared<Enemy>());
-		enemies.push_back(std::make_shared<Enemy>());
-		enemies.push_back(std::make_shared<Enemy>());
+		//enemies.push_back(std::make_shared<Enemy>());
+		//enemies.push_back(std::make_shared<Enemy>());
 
 		const int MIN_DIST = 10;
 		for (auto& enemy : enemies)
@@ -109,6 +113,35 @@ namespace CPL
 		}
 	}
 
+	void Map::UpdateVisibility(int px, int py, int radius = 5)
+	{
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				// Reset visibility
+				visible[y][x] = false;
+			}
+		}
+
+		for (int dy = -radius; dy <= radius; ++dy)
+		{
+			for (int dx = -radius; dx <= radius; ++dx)
+			{
+				int nx = px + dx;
+				int ny = py + dy;
+				if (nx >= 0 && nx < width && ny >= 0 && ny < height)
+				{
+					if (abs(dx) + abs(dy) <= radius) // ข้าวหลามตัด
+					{
+						visible[ny][nx] = true;
+						revealed[ny][nx] = true;
+					}
+				}
+			}
+		}
+	}
+
 	void GameEngine::UpdateEnemyPosition()
 	{
 		for (int i = 0; i < enemies.size(); i++)
@@ -144,10 +177,19 @@ namespace CPL
 
 	bool GameEngine::tryMoveTo(int newX, int newY)
 	{
+		if (map->getTileType(newX, newY) == ESCAPE)
+		{
+			player->setPosition(newX, newY);
+			gameWon = true;
+			return true;
+
+		}
 		if (map->getTileType(newX, newY) == FLOOR &&
 			map->isWalkable(newX, newY))
 		{
 			player->setPosition(newX, newY);
+			map->UpdateVisibility(newX, newY);
+
 			return true;
 		}
 		return false;

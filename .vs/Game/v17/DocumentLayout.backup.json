@@ -3,36 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Map.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Map.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Enemy.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Enemy.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\GameEngine.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:GameEngine.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Map.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\GameEngine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:GameEngine.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\GameEngine.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:GameEngine.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Pathfinding.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Pathfinding.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -41,6 +29,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Enemy.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Enemy.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Pathfinding.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Pathfinding.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E2037C04-0D07-497A-9ADF-685FECF19BFF}|Game.vcxproj|solutionrelative:Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,11 +50,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 213,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "Map.cpp",
+              "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.cpp",
+              "RelativeDocumentMoniker": "Map.cpp",
+              "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.cpp",
+              "RelativeToolTip": "Map.cpp",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACEAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-22T13:08:17.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Map.hpp",
+              "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.hpp",
+              "RelativeDocumentMoniker": "Map.hpp",
+              "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.hpp",
+              "RelativeToolTip": "Map.hpp",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACEAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-06-20T16:11:37.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Pathfinding.hpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Pathfinding.hpp",
               "RelativeDocumentMoniker": "Pathfinding.hpp",
@@ -62,25 +88,11 @@
               "RelativeToolTip": "Pathfinding.hpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-22T13:21:59.769Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T13:21:59.769Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Map.cpp",
-              "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.cpp",
-              "RelativeDocumentMoniker": "Map.cpp",
-              "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.cpp",
-              "RelativeToolTip": "Map.cpp",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAAAA4BAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-22T13:08:17.048Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "Enemy.hpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Enemy.hpp",
               "RelativeDocumentMoniker": "Enemy.hpp",
@@ -88,25 +100,24 @@
               "RelativeToolTip": "Enemy.hpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-22T02:47:34.191Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-22T02:47:34.191Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-20T14:08:27.141Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "Enemy.cpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Enemy.cpp",
               "RelativeDocumentMoniker": "Enemy.cpp",
@@ -114,8 +125,7 @@
               "RelativeToolTip": "Enemy.cpp",
               "ViewState": "AgIAABkAAAAAAAAAAAAswDQAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T14:08:27.143Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T14:08:27.143Z"
             },
             {
               "$type": "Document",
@@ -125,27 +135,27 @@
               "RelativeDocumentMoniker": "GameEngine.hpp",
               "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\GameEngine.hpp",
               "RelativeToolTip": "GameEngine.hpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB4AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-06-22T02:50:41.353Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "GameEngine.cpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\GameEngine.cpp",
               "RelativeDocumentMoniker": "GameEngine.cpp",
               "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\GameEngine.cpp",
               "RelativeToolTip": "GameEngine.cpp",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAvwKwAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAUwBoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-20T14:08:27.17Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Player.cpp",
               "RelativeDocumentMoniker": "Player.cpp",
@@ -153,11 +163,12 @@
               "RelativeToolTip": "Player.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T14:08:27.239Z"
+              "WhenOpened": "2025-06-20T14:08:27.239Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 5,
               "Title": "Entity.cpp",
               "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Entity.cpp",
               "RelativeDocumentMoniker": "Entity.cpp",
@@ -165,19 +176,7 @@
               "RelativeToolTip": "Entity.cpp",
               "ViewState": "AgIAAAUAAAAAAAAAAAArwBgAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-06-20T14:08:27.241Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Map.hpp",
-              "DocumentMoniker": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.hpp",
-              "RelativeDocumentMoniker": "Map.hpp",
-              "ToolTip": "C:\\Users\\ChainCPL\\source\\repos\\MemoryPool\\SectorNine\\Map.hpp",
-              "RelativeToolTip": "Map.hpp",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAADQAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-06-20T16:11:37.097Z",
+              "WhenOpened": "2025-06-20T14:08:27.241Z",
               "EditorCaption": ""
             }
           ]

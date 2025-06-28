@@ -9,7 +9,8 @@ namespace CPL
 	enum TileType {
 		FLOOR,
 		WALL,
-		ENEMY
+		ENEMY,
+		ESCAPE
 	};
 	class Map
 	{
@@ -35,6 +36,14 @@ namespace CPL
 		bool isDoor(int x, int y) const;
 
 		std::pair<int, int> getPlayerStart() const;
+		void UpdateVisibility(int px, int py, int radius);
+
+		void setTile(int x, int y, char symbol);
+		char getTile(int x, int y) const;
+		std::pair<int, int> getFarthestFloor(int fromX, int fromY) const;
+
+		void ShowStaticMapOnly() const;
+
 	private:
 
 		std::pair<int, int> playerStart{ 1,1 };
@@ -51,6 +60,9 @@ namespace CPL
 
 		std::vector<std::vector<char>>tiles;
 		std::vector<std::vector<bool>>doorOpen;
+
+		std::vector<std::vector<bool>> visible;
+		std::vector<std::vector<bool>> revealed;
 	};
 }
 

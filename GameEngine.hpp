@@ -31,6 +31,8 @@ namespace CPL
 		//Update enemy
 		void UpdateEnemyPosition();
 
+		bool gameWon = false;
+
 	private:
 		std::unique_ptr<Map> map;
 		std::unique_ptr<Player> player;

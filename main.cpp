@@ -10,7 +10,7 @@ int main()
 	std::unique_ptr<GameEngine> gameEngine = std::make_unique<GameEngine>(); //fix memory leak
 	gameEngine->init();
 
-	while (true) 
+	while (!gameEngine->gameWon) 
 	{
 		char input = gameEngine->handleInput();
 
@@ -21,7 +21,7 @@ int main()
 		// Draw map
 		gameEngine->render();
 	}
-
+	std::cout << "\n*** YOU ESCAPED SECTOR NINE! ***\n";
 	gameEngine->release();
 
 	return 0;
