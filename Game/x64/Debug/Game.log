@@ -1,8 +1,15 @@
-﻿  GameEngine.cpp
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(75,7): warning C4189: 'y': local variable is initialized but not referenced
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(74,7): warning C4189: 'x': local variable is initialized but not referenced
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(122,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(124,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(137,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\GameEngine.cpp(137,48): warning C4018: '<': signed/unsigned mismatch
-  Game.vcxproj -> C:\Users\ChainCPL\source\repos\MemoryPool\SectorNine\x64\Debug\Game.exe
+﻿  Enemy.cpp
+D:\GitHub\SectorNine\Enemy.cpp(32,27): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\SectorNine\Enemy.cpp(33,31): warning C4018: '<': signed/unsigned mismatch
+  Entity.cpp
+  GameEngine.cpp
+D:\GitHub\SectorNine\GameEngine.cpp(75,7): warning C4189: 'y': local variable is initialized but not referenced
+D:\GitHub\SectorNine\GameEngine.cpp(74,7): warning C4189: 'x': local variable is initialized but not referenced
+  Leaf.cpp
+  main.cpp
+  Map.cpp
+D:\GitHub\SectorNine\Map.cpp(84,15): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+  Player.cpp
+  Generating Code...
+D:\GitHub\SectorNine\Map.cpp(255,1): warning C4701: potentially uninitialized local variable 'exitRoom' used
+  Game.vcxproj -> D:\GitHub\SectorNine\x64\Debug\Game.exe

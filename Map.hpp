@@ -18,6 +18,10 @@ namespace CPL
 	};
 	class Map
 	{
+		int width = 80;
+		int height = 30;
+		int doorChance = 60;
+
 	public:
 		Map(int w, int h, int chance);
 
@@ -53,7 +57,6 @@ namespace CPL
 		void revealWholeDungeon();
 
 	private:
-
 		std::pair<int, int> playerStart{ 1,1 };
 
 		void carveHorizontal(int x1, int x2, int y);
@@ -62,9 +65,7 @@ namespace CPL
 
 		void digPathWithDoor(int x1, int y1, int x2, int y2);
 
-		const unsigned int width = 80;
-		const unsigned int height = 30;
-		int doorChance = 60;
+		
 
 		std::vector<std::vector<char>> tiles;
 		std::vector<std::vector<bool>> doorOpen;

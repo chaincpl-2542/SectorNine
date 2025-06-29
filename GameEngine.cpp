@@ -100,7 +100,7 @@ namespace CPL
 				"=======\n"
 				"Thank you for playing\n"
 				"=======\n"
-				"Make by Peeranat Luangaram and Olivia\n\n"
+				"Make by Peeranat Luangaram and Su Myat Nadi\n\n"
 				"Press any key to restart the game.";
 			return;
 		}
@@ -297,8 +297,9 @@ namespace CPL
 		std::cout << "7 = up-left, 8 = up, 9 = up-right" << std::endl;
 		std::cout << "4 = left,    5 = wait, 6 = right" << std::endl;
 		std::cout << "1 = down-left, 2 = down, 3 = down-right" << std::endl;
+		std::cout << "0 = Open the door" << std::endl;
 		std::cout << "===================== Control Map======================" << std::endl;
-		std::cout << "7 8 9 \n4 5 6 \n1 2 3" << std::endl;
+		std::cout << "7 8 9 \n4 5 6 \n1 2 3 \n0" << std::endl;
 		std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
 		std::cout << "=======================================================" <<std::endl;
 		std::cout << "\n" << std::endl;
